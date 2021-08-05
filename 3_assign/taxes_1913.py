@@ -26,7 +26,7 @@ RATE6_MIN = 500001.0
 
 valid_entry = False
 
-# read income, but check that entry is digits before processing.
+# read income, after first checking that the entry is numeric before processing.
 while not valid_entry :
     income = input("Please enter your income (whole numbers only): ")
     if income.isdigit():
