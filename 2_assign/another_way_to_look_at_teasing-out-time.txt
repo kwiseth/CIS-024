@@ -1,0 +1,27 @@
+GCC 8.3.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> time_1 = 1730
+>>> time_1 = "1730"
+>>> minutes = time_1(2)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'str' object is not callable
+>>> print(time_1)
+1730
+>>> minutes = time_1[2]
+>>> print(minutes)
+3
+>>> minutes = time_1[2], time_1[3]
+>>> print(minutes)
+('3', '0')
+>>> minutes = time_1[2] + time_1[3]
+>>> print(minutes)
+30
+>>> minutes = int(time_1[2] + time_1[3])
+>>> print(minutes)
+30
+>>> hours = time_1[0] + time_1[1]
+>>> print(hours)
+17
+>>> 
+

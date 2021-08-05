@@ -1,0 +1,114 @@
+Variation in Nim Game
+Prerequisites:
+Sprague Gruncy theorem
+Grundy Numbers
+
+Nim is a famous game in which two players take turns removing items from distinct piles. During each turn, a player must remove one or more items from a single, non-empty pile. The winner of the game is whichever player removes the last item from the last non-empty pile.
+Now, For each non-empty pile, either player can remove zero items from that pile and have it count as their move; however, this move can only be performed once per pile by either player.
+Given the number of items in each pile, determine who will win the game; Player 1 or player 2. If player 1 starts the game and both plays optimally.
+
+Examples:
+
+Input : 3 [18, 47, 34]
+Output : Player 2 wins
+G = g(18)^g(47)^g(34) = (17)^(48)^(33) = 0
+Grundy number(G), for this game is zero.
+Player 2 wins. 
+
+Input : 3 [32, 49, 58]
+Output : Player 1 wins
+G = g(31)^g(50)^g(57) = (17)^(48)^(33) = 20
+Grundy number(G), for this game is non-zero.
+Player 1 wins. 
+
+
+Approach:
+Grundy number for each pile is calculated based on the number of stones.To compensate the zero move we will have to modify grundy values we used in standard nim game.
+If pile size is odd; grundy number is size+1 and
+if pile size is even; grundy number is size-1.
+We XOR all the grundy number values to check if final Grundy number(G) of game is non zero or not to decide who is winner of game.
+
+Explanation:
+Grundy number of a state is the smallest positive integer that cannot be reached in one valid move.
+So, we need to calculate mex value for each n, bottom up wise so that we can induce the grundy number for each n. where n is the pile size and valid move is the move that will lead the current player to winning state.
+
+Winning state: A tuple of values from where the current player will win the game no matter what opponent does. (If G!=0)
+Losing state: A tuple of values from where the current player will lose the game no matter what opponent does. (If G=0)
+
+For a given pile size n, we have two states:
+(1) n with no zero moves available, 
+grundy number will same as standard nim game.
+(2) n with zero moves available, we can
+reach above state and other states with 
+zero moves remaining. 
+
+For, n = 0, g(0) = 0, empty pile
+
+For, n = 1, we can reach two states:
+(1) n = 0 (zero move not used)
+(2) n = 1 (zero move used)   
+Therefore, g(1) = mex{0, 1} which implies
+that g(1)=2.
+
+For, n = 2, we can reach :
+(1) n = 0 (zero move not used) state 
+because this is a valid move.
+(2) n = 1 is not a valid move, as it will
+lead the current player into losing state.
+Therefore, g(2) = mex{0} which implies 
+that g(2)=1. 
+
+If we try to build a solution bottom-up
+like this, it turns out that if n is even, 
+the grundy number is n - 1 and when it is odd,
+the grundy is n + 1.
+
+
+Below is the implementation of above approach:
+# Python3 program for the 
+# variation in nim game 
+
+# Function to return final 
+# grundy Number(G) of game 
+def solve(p, n): 
+	G = 0
+	for i in range(n): 
+
+		# if pile size is odd 
+		if (p[i] % 2 != 0): 
+			
+			# We XOR pile size+1 
+			G ^= (p[i] + 1) 
+		
+		# if pile size is even 
+		else: 
+
+			# We XOR pile size-1 
+			G ^= (p[i] - 1) 
+	
+	return G 
+
+# Driver code 
+
+# Game with 3 piles 
+n = 3
+
+# pile with different sizes 
+p = [32, 49, 58] 
+
+# Function to return result of game 
+res = solve(p, n) 
+
+if (res == 0): # if G is zero 
+	print("Player 2 wins") 
+	
+else: # if G is non zero 
+	print("Player 1 wins") 
+	
+# This code is contributed by Anant Agarwal. 
+
+Player 1 wins
+Time Complexity: O(n)
+
+
+
